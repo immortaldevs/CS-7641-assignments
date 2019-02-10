@@ -24,19 +24,25 @@ class SVMExperiment(experiments.BaseExperiment):
 
         best_params_linear = None
         best_params_rbf = None
+
+        print("Setting best_params_ for", self._details.ds_name)
         # Uncomment to select known best params from grid search. This will skip the grid search and just rebuild
         # the various graphs
         #
         # Dataset 1:
-        # best_params_linear = {'C': 0.5, 'class_weight': 'balanced', 'loss': 'squared_hinge',
-        #                       'max_iter': 1478, 'tol': 0.06000001}
-        # best_params_rbf = {'C': 2.0, 'class_weight': 'balanced', 'decision_function_shape': 'ovo',
-        #                    'gamma': 0.05555555555555555, 'max_iter': -1, 'tol': 1e-08}
+        if self._details.ds_name is "pen_digits":
+            best_params_linear = {'C': 0.5, 'class_weight': 'balanced', 'loss': 'squared_hinge',
+                                  'max_iter': 1478, 'tol': 0.06000001}
+            best_params_rbf = {'C': 2.0, 'class_weight': 'balanced', 'decision_function_shape': 'ovo',
+                               'gamma': 0.05555555555555555, 'max_iter': -1, 'tol': 1e-08}
         # Dataset 2:
-        # best_params_linear = {'C': 1.0, 'class_weight': 'balanced', 'loss': 'hinge', 'dual': True,
-        #                       'max_iter': 70, 'tol': 0.08000001}
-        # best_params_rbf = {'C': 1.5, 'class_weight': 'balanced', 'decision_function_shape': 'ovo',
-        #                    'gamma': 0.125, 'max_iter': -1, 'tol': 0.07000001}
+        elif self._details.ds_name is "credit_default":
+            best_params_linear = {'C': 1.0, 'class_weight': 'balanced', 'loss': 'hinge', 'dual': True,
+                                  'max_iter': 70, 'tol': 0.08000001}
+            best_params_rbf = {'C': 1.5, 'class_weight': 'balanced', 'decision_function_shape': 'ovo',
+                               'gamma': 0.125, 'max_iter': -1, 'tol': 0.07000001}
+        else:
+            print("best_params_ not set")
 
         # Linear SVM
         params = {'SVM__max_iter': iters, 'SVM__tol': tols, 'SVM__class_weight': ['balanced'],
